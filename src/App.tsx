@@ -6,7 +6,7 @@ function App() {
   
   return (
     <div>
-      <MyTextInput label='champstext' name='champ' value='essai' placeholder='monchamp'/>
+      
     </div>
   )
 }

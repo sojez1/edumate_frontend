@@ -1,9 +1,13 @@
 import React from 'react'
 
-export default function MyButton(label:string) {
+type btnFonction = {
+  label: string,
+  actionToExecute: ()=>void
+}
+export default function MyButton({label, actionToExecute}:btnFonction) {
   return (
     <div>
-        <button>{label}</button>
+        <button onClick={actionToExecute}>{label}</button>
     </div>
   )
 }

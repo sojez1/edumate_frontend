@@ -1,18 +1,15 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.tsx'
-import { BrowserRouter } from 'react-router-dom'
-import BarreDeMenu from './navigation/BarreDeMenu.tsx'
+import {RouterProvider } from 'react-router-dom'
+
+import { mesRoutes } from './navigation/MesRoutes.tsx'
+
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
-
-    <StrictMode>
-      <BarreDeMenu/>
-      <App />
-    </StrictMode>, 
   
-  </BrowserRouter>
+    <RouterProvider router={mesRoutes}/>
+
+
+  
   
 )
