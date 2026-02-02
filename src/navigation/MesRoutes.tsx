@@ -6,6 +6,7 @@ import PublierNoteParentsEleves from "../pages/enseignants/PublierNoteParentsEle
 import RapportJournalierEnfants from "../pages/enseignants/RapportJournalierEnfants";
 import SignalerAbsenceMaladie from "../pages/parents/SignalerAbsenceMaladie";
 import PageNavigationErreur from "../pages/commun/PageNavigationErreur";
+import GestionDesClasses from "../pages/administration/GestionDesClasses";
 
 export const mesRoutes = createBrowserRouter([
   {
@@ -18,7 +19,8 @@ export const mesRoutes = createBrowserRouter([
       {path:"publierNote", element:<PublierNoteParentsEleves/>},
       {path:"messageAuxParents", element:<RapportJournalierEnfants/>},
       {path:"login", element:<Logins/>},
-      {path:"signalerAbsenceEnfant", element:<SignalerAbsenceMaladie/>}
+      {path:"signalerAbsenceEnfant", element:<SignalerAbsenceMaladie/>},
+      {path:"classes", element:<GestionDesClasses/>},
     ]
     
   }

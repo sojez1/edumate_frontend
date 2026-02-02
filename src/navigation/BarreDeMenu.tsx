@@ -27,6 +27,7 @@ export default function BarreDeMenu() {
                     <li>Administration
                         <ul>
                             <li><NavLink to="messageAuxParents" className="nav-item">Envoyer un mail aux parents</NavLink></li>
+                            <li><NavLink to="classes" className="nav-item">Gestion des classes</NavLink></li>
 
                         </ul>
                     </li>
