@@ -2,12 +2,13 @@ import React from 'react'
 
 type btnFonction = {
   label: string,
-  actionToExecute: ()=>void
+  type?: "button" | "submit" | "reset",
+  actionToExecute?: React.ButtonHTMLAttributes<HTMLButtonElement>['onClick']
 }
-export default function MyButton({label, actionToExecute}:btnFonction) {
+export default function MyButton({label, type="submit", actionToExecute}:btnFonction) {
   return (
     <div>
-        <button onClick={actionToExecute}>{label}</button>
+        <button type={type} onClick={actionToExecute}>{label}</button>
     </div>
   )
 }
