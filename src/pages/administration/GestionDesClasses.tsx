@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import type { classes } from '../../utilitaires/DataTypes'
+import type { classeForm, classes } from '../../utilitaires/DataTypes'
 import { myAxios } from '../../axios/MyAxios';
 import MyTextInput from '../../composants/MyTextInput';
 import MyEnumCombo from '../../composants/MyEnumCombo';
@@ -7,8 +7,7 @@ import MyEnumCombo from '../../composants/MyEnumCombo';
 const saveClasseUrl = 'classes/ajouterClasse'; //URL pour enregistrer une nouvelle classe
 const getAllClassesUrl = 'classes/listerClasses';//URL pour recuperer la liste des classes existantes
 
-const defaultClasseData:classes ={
-    id :undefined,
+const defaultClasseFormData:classeForm ={
     nomClasse:"",
     appelation:"",
     ordreEnseignement:""
@@ -17,7 +16,7 @@ const defaultClasseData:classes ={
 
 export default function GestionDesClasses() {
 
-    const [newClasseData, setNewClasseData] = useState<classes>(defaultClasseData);
+    const [newClasseData, setNewClasseData] = useState<classeForm>(defaultClasseFormData);
     const [listeClasses, setListeClasses] = useState<classes[]>([]);
     const [niveauxEnseignement, setNiveauxEnseignement] = useState<string[]>([]);
 
@@ -27,7 +26,7 @@ export default function GestionDesClasses() {
 
         setNewClasseData((oldData) => ({
             ...oldData,
-            [name]: name === "id" ? Number(value) :value
+            [name]:value
         }));
     }
 
@@ -52,6 +51,13 @@ export default function GestionDesClasses() {
         }
     }
 
+    // useEffect pour charger les données initiales
+    useEffect(()=>{
+        handleListeClasses();
+        handleListeOrdreEnseignement();
+        
+    }, []) 
+
     // Fonction pour enregistrer une nouvelle classe
     const handleSaveNewClasse = async (e: React.FormEvent)=>{
         e.preventDefault();
@@ -65,14 +71,14 @@ export default function GestionDesClasses() {
         });
     }
 
+    const handleBtnAnnuler = (e: React.FormEvent)=>{
+        e.preventDefault();
+        setNewClasseData(defaultClasseFormData);
+    }
+
     
     
-    // useEffect pour charger les données initiales
-    useEffect(()=>{
-        handleListeClasses();
-        handleListeOrdreEnseignement();
-        
-    }, [])  
+     
 
 
   return (
@@ -85,6 +91,7 @@ export default function GestionDesClasses() {
                 <MyEnumCombo label='Niveau d enseignement' name='ordreEnseignement' liste={niveauxEnseignement} required={true} />
                 <div className='mt-3'>
                     <button type='submit' className='btn btn-primary'>Enregistrer</button>
+                    <button type='button' className='btn btn-secondary ms-2' onClick={handleBtnAnnuler}>Annuler</button>
                 </div>
             </form>
         </div>
@@ -96,7 +103,8 @@ export default function GestionDesClasses() {
                     <tr>
                         <th>Num</th>
                         <th>Nom de la classe</th>
-                        <th>Ordre d'enseignement</th>   
+                        <th>Ordre d'enseignement</th>
+                        <th>Action</th>   
                     </tr>
                 </thead>
                 <tbody>
@@ -104,7 +112,11 @@ export default function GestionDesClasses() {
                         <tr key={eachClasse.id}>
                             <td>{index + 1}</td>
                             <td>{eachClasse.nomClasse}</td>
-                            <td>{eachClasse.ordreEnseignement}</td>
+                         <td>{eachClasse.ordreEnseignement}</td>
+                         <td>
+                            <button className='btn btn-sm btn-primary me-2'>Modifier</button>
+                            <button className='btn btn-sm btn-danger'>Supprimer</button>
+                         </td>
                         </tr>
                     ))}
                 </tbody>

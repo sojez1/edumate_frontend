@@ -30,6 +30,11 @@ export default function GestionAnneeScolaires() {
         setListeAnneesScolaires(reponse.data);
     };
 
+    useEffect(() => {
+        listeAnnee();
+        
+    }, []);
+
     const handleBtnEnregistrerAnnee = async (e: React.FormEvent)=>{
         e.preventDefault();
         await myAxios.post(nouvelleAnneeScolaireUrl, anneescolaire);
@@ -41,10 +46,16 @@ export default function GestionAnneeScolaires() {
         setAnneeScolaire(defaultAnneeScolaireData);
     }
 
-    useEffect(() => {
-        listeAnnee();
-        
-    }, []);
+    const handleActiverOuDesactiverAnnee = async (id: number)=>{
+        try{
+            await myAxios.post(`anneeScolaires/changerStatut/${id}`);
+            listeAnnee(); // Recharger la liste des années scolaires après l'activation
+        } catch(error){
+            console.error("Erreur lors de l'activation de l'année scolaire:", error);
+        }
+    };
+
+    
 
   return (
     <div>
@@ -86,7 +97,7 @@ export default function GestionAnneeScolaires() {
                                 <span>
                                     <button className='btn btn-sm btn-primary me-2'>Modifier</button>
                                     <button className='btn btn-sm btn-danger'>Supprimer</button>
-                                    <button className='btn btn-sm btn-success ms-2'>Activer</button>
+                                    <button className='btn btn-sm btn-success ms-2' disabled={!eachAnnee.id} onClick={()=>handleActiverOuDesactiverAnnee(eachAnnee.id!)}>{eachAnnee.active ? "Désactiver" : "Activer"}</button>
                                 </span>
                             </tr>
                         ))}
