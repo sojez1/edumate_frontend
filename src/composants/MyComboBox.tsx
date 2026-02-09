@@ -15,7 +15,7 @@ export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAff
     const selecteurId = useId();
 
   return (
-    <div>
+    <div className='flex-fill'>
         <label htmlFor={selecteurId}>{label}</label>
 
         <select name={nom} id={selecteurId} onChange={(e)=>e.target.value} multiple={selectionMultiple} className='form-select'>

@@ -4,7 +4,7 @@ export default function BarreDeMenu() {
   return (
     <>
         <header>
-            <nav className='navbar navbar-expand-lg bg-body-tertiary fixed-top'>
+            <nav className='navbar navbar-expand-lg fixed-top' style={{backgroundColor:"#CF27F5"}}>
                 <div className='container'>
                     
                     <NavLink className='navbar-brand' to="/">Edumate</NavLink>

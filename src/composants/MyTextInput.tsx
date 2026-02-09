@@ -13,7 +13,7 @@ export default function MyTextInput({label, name, placeholder, value, onValueCha
 
     const champId = useId();
   return (
-    <div className='form-floating mb-3'>
+    <div className='form-floating mb-3 flex-fill'>
         
         <input className='form-control'
             name={name}
@@ -23,7 +23,7 @@ export default function MyTextInput({label, name, placeholder, value, onValueCha
             required={required}     
         
         />
-        <label htmlFor={champId}>{label} {required && <span className='text-danger'>*</span>}</label>
+        <label  className='form-label' htmlFor={champId}>{label} {required && <span className='text-danger'>*</span>}</label>
 
     </div>
   )
