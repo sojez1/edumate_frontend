@@ -5,7 +5,7 @@ type ComboInput<T> = {
     nom: string;
     liste: T[];
     identifiant: keyof T;
-    valeurAfficher: keyof T;
+    valeurAfficher: keyof T | (keyof T)[];
     valeurretouree: keyof T;
     selectionMultiple?: boolean;
 }
@@ -22,13 +22,12 @@ export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAff
 
             <option value="">--Sélectionner--</option>
 
-            {liste.map((eachElement) => (
-                <option 
-                key={String(eachElement[identifiant])} 
-                value={String(eachElement[valeurretouree])}>
-                    {String(eachElement[valeurAfficher])}
-                </option>
-            ))}
+            {liste.map((ligneCombo) =>{
+                {/*on verifie si la valeur retournee est un tableau ou non. Ensuite afficher les valeurs separees par |*/}
+                const label_affichee = Array.isArray(valeurAfficher)? valeurAfficher.map(elt => String(ligneCombo[elt])).join("  |  ") : String(ligneCombo[valeurAfficher]);
+                
+                return <option key={String(ligneCombo[identifiant])} value={String(ligneCombo[valeurretouree])}>{label_affichee}</option>
+            })}      
     </select>
 
 

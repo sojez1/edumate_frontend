@@ -3,12 +3,19 @@ import MyTextInput from '../../composants/MyTextInput'
 import type { anneesScolaires, classes } from '../../utilitaires/DataTypes'
 import { myAxios } from '../../axios/MyAxios'
 import MyComboBox from '../../composants/MyComboBox'
+import DocumentATeleverser from '../../composants/DocumentATeleverser'
 
 
 export default function DemandeAdmission() {
 
     const[listeAnnees, setListeAnnees] = useState<anneesScolaires[]>([]);
     const [listeClasses, setListeClasses] = useState<classes[]>([])
+    const [anneeScolaire, setAnneeScolaire]= useState("");
+    const [listeDoc, setListeDoc] = useState<File[]>([]);
+
+    const handleAnneeScolaireChange = (e: React.ChangeEvent<HTMLSelectElement>)=>{
+        setAnneeScolaire(e.target.value)
+    }
 
     const [dateNaissance, setDateNaissance] = React.useState<Date | null>(null)  
 
@@ -29,6 +36,13 @@ export default function DemandeAdmission() {
 
 
     }, [])
+
+    const ajouterunDoc = (fichier:File)=>{
+
+
+
+    }
+
 
   return (
     <div className='container'>
@@ -88,14 +102,14 @@ export default function DemandeAdmission() {
                 <legend className='float-none w-auto px-2 fs-6 fw-bold text-danger'>Details de la demande d'admission</legend>
                 <div className='container d-flex gap-2'>
                   <MyComboBox label='Annee scolaire' nom="anneeScoalire" liste={listeAnnees} identifiant="id" valeurAfficher="anneeScolaire" valeurretouree="id"/>
-                  <MyComboBox label='classe Souhaite' nom="classe" liste={listeClasses} identifiant="id" valeurAfficher="nomClasse" valeurretouree="id"/>
+                  <MyComboBox label='classe Souhaite' nom="classe" liste={listeClasses} identifiant="id" valeurAfficher={["nomClasse","appelation"]} valeurretouree="id"/>
                 </div>
                 <MyTextInput label='motivation' name='motivation' placeholder='votre motivation' value='' required={true}/>
             </fieldset>
 
             <fieldset className='border border-primary rounded p-3 d-flex flex-column gap-3'>
                 <legend>Documents a l'appui de la demande</legend>
-                <button className='btn btn-primary btn-sm '>Ajouter un doc</button>
+                <DocumentATeleverser/>
                 <div>
                     
                 </div>
