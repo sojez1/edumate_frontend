@@ -8,9 +8,11 @@ type ComboInput<T> = {
     valeurAfficher: keyof T | (keyof T)[];
     valeurretouree: keyof T;
     selectionMultiple?: boolean;
+    valeur?:string | number;
+    onValueChange?:(value: string | number)=>void;
 }
 
-export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAfficher, valeurretouree, selectionMultiple = false}: ComboInput<T>){
+export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAfficher, valeurretouree, valeur, onValueChange, selectionMultiple = false}: ComboInput<T>){
 
     const selecteurId = useId();
 
@@ -18,7 +20,7 @@ export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAff
     <div className='flex-fill'>
         <label htmlFor={selecteurId}>{label}</label>
 
-        <select name={nom} id={selecteurId} onChange={(e)=>e.target.value} multiple={selectionMultiple} className='form-select'>
+        <select name={nom} value={valeur} id={selecteurId} onChange={(e)=>onValueChange && onValueChange(e.target.value)} multiple={selectionMultiple} className='form-select'>
 
             <option value="">--Sélectionner--</option>
 

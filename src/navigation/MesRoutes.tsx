@@ -8,6 +8,7 @@ import SignalerAbsenceMaladie from "../pages/parents/SignalerAbsenceMaladie";
 import PageNavigationErreur from "../pages/commun/PageNavigationErreur";
 import GestionDesClasses from "../pages/administration/GestionDesClasses";
 import GestionAnneeScolaires from "../pages/administration/GestionAnneeScolaires";
+import ListeDemandeAdmission from "../pages/administration/ListeDemandeAdmission";
 
 export const mesRoutes = createBrowserRouter([
   {
@@ -23,6 +24,7 @@ export const mesRoutes = createBrowserRouter([
       {path:"signalerAbsenceEnfant", element:<SignalerAbsenceMaladie/>},
       {path:"classes", element:<GestionDesClasses/>},
       {path:"gestionAnneeScolaires", element:<GestionAnneeScolaires/>},
+      {path: "listeDemandeAdmission", element:<ListeDemandeAdmission/>},
     ]
     
   }

@@ -38,29 +38,51 @@ export type classes = {
     export type candidatAdmissionForm = {
         nom: string;
         prenom: string;
-        lieuNaissance: string;
-        pere?:Parents;
-        mere?:Parents;
+        sexe: string;
+        dateNaissance: string;
+        email: string;
+        numeroTelephone: string;
+        adresse: string
     }
 
     export type candidatAdmission = {
         id: number;
         nom: string;
         prenom: string;
-        lieuNaissance: string;
-        pere?:Parents;
-        mere?:Parents;
+        sexe: string;
+        dateNaissance: Date;
+        email: string;
+        numeroTelephone: string;
+        adresse: string
     }
+
+    export type unDocument = {
+    id: string,
+    file:File
+}
+
+export type demandeAdmissionKey = {
+    candidatId: number;
+    classeId: number;
+    anneeScolaireId: number
+}
 
     export type demandeAdmissionForm = {
         candidat: candidatAdmissionForm;
-        classeDemandee: string;
+        anneeScolaire: string;
+        classeSouhaitee: string
         motivation: string;
+        documentsJoint?: unDocument[];        
     }
 
     export type demandeAdmission = {
-        id: number;
-        candidat: candidatAdmission;
-        classeDemandee: string;
+        id: string;
+        dateDemande: Date;
+        numeroDemande: string;
+        candidat: candidatAdmissionForm;
+        anneeScolaire: string;
+        classeSouhaitee: string
         motivation: string;
-        dateDemande: string;}
+        documentsJoint?: unDocument[]; 
+    
+    }

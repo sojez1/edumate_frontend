@@ -1,12 +1,9 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-type unDocument = {
-    id: string,
-    file:File
-}
+import type { unDocument } from "../utilitaires/DataTypes";
 
 type Props = {
-    onUpload?: (fichier:File[])=> void;  // calback optionnel
+    onUpload?: (listeDocuments: unDocument[])=> void;  // calback optionnel
     chargerFichier: ()=>void;  // fonction pour enregistrer les pieces jointes dans la DB ou autres traitement sur les PJ
 }
 
@@ -32,8 +29,6 @@ export default function DocumentATeleverser({chargerFichier, onUpload}:Props){
 
         setMesDocuments((prev)=>[...prev, ...newDocs])
 
-        onUpload?.(Array.from(e.target.files))
-
     }
 
     const supprimerLigneDoc = (id:string)=>{
@@ -42,24 +37,25 @@ export default function DocumentATeleverser({chargerFichier, onUpload}:Props){
         
     }
 
+    useEffect(()=>{
+        onUpload?.(mesDocuments);
+    }, [mesDocuments])
+
     
 
     return (
         <div>
 
-            <button onClick={()=>ouvrirSelecteur()}>Ajouter un doc</button>
+            <div className="d-flex justify-content-end">
+                <button className="btn btn-primary" onClick={()=>ouvrirSelecteur()}>Ajouter un doc</button>
+            </div>            
 
-            <input type="file" ref={inputRef} hidden onChange={(e)=>console.log(e.target.files)}/>
+            <input type="file" ref={inputRef} hidden onChange={ajouterDoc}/>            
 
-            
 
-            
-            
-            <button onClick={chargerFichier}> Enregistrer pieces jointes</button>
-
-            <table>
+            <table className="table table-stripped table-bordered">
                 
-            <thead>
+            <thead className="thead thead-dark">
                 <tr>
                     <th>Titre</th>
                     <th>Taille</th>
