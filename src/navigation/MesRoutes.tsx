@@ -9,6 +9,7 @@ import PageNavigationErreur from "../pages/commun/PageNavigationErreur";
 import GestionDesClasses from "../pages/administration/GestionDesClasses";
 import GestionAnneeScolaires from "../pages/administration/GestionAnneeScolaires";
 import ListeDemandeAdmission from "../pages/administration/ListeDemandeAdmission";
+import Accueil from "../pages/commun/Accueil";
 
 export const mesRoutes = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ export const mesRoutes = createBrowserRouter([
     element:<BarreDeMenu/>,
     errorElement:<PageNavigationErreur/>,
     children:[
-      {index:true, element:<Logins/>},
+      {index:true, element:<Accueil/>},
       {path:"demanderAdmission", element:<DemandeAdmission/>},
       {path:"publierNote", element:<PublierNoteParentsEleves/>},
       {path:"messageAuxParents", element:<RapportJournalierEnfants/>},

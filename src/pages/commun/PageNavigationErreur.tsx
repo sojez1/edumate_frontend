@@ -1,8 +1,7 @@
-import React from 'react'
-import { useRouteError } from 'react-router-dom'
+
 
 export default function PageNavigationErreur() {
-    const erreur = useRouteError();
+    //const erreur = useRouteError();
   return (
     <div>
         <h1>Erreur de navigation</h1>

@@ -86,3 +86,13 @@ export type demandeAdmissionKey = {
         documentsJoint?: unDocument[]; 
     
     }
+
+    export type admissionDetailsForm = {
+        dateNaissance:string;
+        anneeScolaire:string;
+        numeroDemande:string;
+        demandeur:string;
+        classeSollicitee: string;
+        statut:string;
+        dateDemande:string
+    }
