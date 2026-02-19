@@ -41,6 +41,7 @@ export default function BarreDeMenu() {
                             <li><NavLink className="dropdown-item" to="classes" >Gestion des classes</NavLink></li>
                             <li><NavLink className="dropdown-item" to="gestionAnneeScolaires" >Gestion des années scolaires</NavLink></li>
                             <li><NavLink className="dropdown-item" to="listeDemandeAdmission">Liste des demandes d'admission</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="decisionAdmission">Admission - prendre une decision</NavLink></li>
 
                         </ul>
                     </li>

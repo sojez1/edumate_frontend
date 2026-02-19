@@ -10,24 +10,43 @@ import GestionDesClasses from "../pages/administration/GestionDesClasses";
 import GestionAnneeScolaires from "../pages/administration/GestionAnneeScolaires";
 import ListeDemandeAdmission from "../pages/administration/ListeDemandeAdmission";
 import Accueil from "../pages/commun/Accueil";
+import AdmissionPrendreDecision from "../pages/administration/AdmissionPrendreDecision";
+import SansBarreDeMenu from "./SansBarreDeMenu";
 
 export const mesRoutes = createBrowserRouter([
+
+  // mes routes avec menu
   {
     path:"/",
     element:<BarreDeMenu/>,
     errorElement:<PageNavigationErreur/>,
     children:[
-      {index:true, element:<Accueil/>},
+      //{index:true, element:<Accueil/>},
       {path:"demanderAdmission", element:<DemandeAdmission/>},
       {path:"publierNote", element:<PublierNoteParentsEleves/>},
       {path:"messageAuxParents", element:<RapportJournalierEnfants/>},
-      {path:"login", element:<Logins/>},
+      //{path:"login", element:<Logins/>},
       {path:"signalerAbsenceEnfant", element:<SignalerAbsenceMaladie/>},
       {path:"classes", element:<GestionDesClasses/>},
       {path:"gestionAnneeScolaires", element:<GestionAnneeScolaires/>},
       {path: "listeDemandeAdmission", element:<ListeDemandeAdmission/>},
+      {path:"decisionAdmission", element:<AdmissionPrendreDecision/>}
     ]
     
+  },
+
+  // mes routes sans menu
+  {
+    
+    element:<SansBarreDeMenu/>,
+    errorElement:<PageNavigationErreur/>,
+    children:[
+      
+      {path:"login", element:<Logins/>},
+      {index:true, element:<Accueil/>},
+      
+    ]
+
   }
 
 

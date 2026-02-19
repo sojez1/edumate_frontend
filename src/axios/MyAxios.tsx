@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const myAxios = axios.create({
-    baseURL: 'http://localhost:8091/edumate',
+    baseURL: 'https://edumate-backend-0rjc.onrender.com/edumate',
     headers: {
         'Content-Type': 'application/json',
     },

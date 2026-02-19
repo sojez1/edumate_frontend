@@ -1,6 +1,6 @@
 
 import './App.css'
-import MyTextInput from './composants/MyTextInput'
+
 
 function App() {
   

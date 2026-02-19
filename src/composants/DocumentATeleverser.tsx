@@ -4,7 +4,7 @@ import type { unDocument } from "../utilitaires/DataTypes";
 
 type Props = {
     onUpload?: (listeDocuments: unDocument[])=> void;  // calback optionnel
-    chargerFichier: ()=>void;  // fonction pour enregistrer les pieces jointes dans la DB ou autres traitement sur les PJ
+    chargerFichier: (docs:unDocument[])=>void;  // fonction pour enregistrer les pieces jointes dans la DB ou autres traitement sur les PJ
 }
 
 export default function DocumentATeleverser({chargerFichier, onUpload}:Props){
@@ -75,6 +75,9 @@ export default function DocumentATeleverser({chargerFichier, onUpload}:Props){
                 
             </tbody>
         </table>
+        <div>
+            <button type="button" onClick={()=>{chargerFichier(mesDocuments)}}> envoyer les docs</button>
+        </div>
 
     </div>
         

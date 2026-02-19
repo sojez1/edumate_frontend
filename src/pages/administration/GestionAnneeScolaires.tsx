@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import MyTextInput from '../../composants/MyTextInput'
 import type { anneesScolaires } from '../../utilitaires/DataTypes';
 import { myAxios } from '../../axios/MyAxios';
@@ -11,6 +11,7 @@ const getAllAnneesScolairesUrl:string= 'anneeScolaires/lister'; //URL pour recup
 export default function GestionAnneeScolaires() {
     
     const defaultAnneeScolaireData = {
+        id:0,
         anneeScolaire: "",
         active: false
     };

@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import MyTextInput from '../../composants/MyTextInput'
+import { useEffect, useState } from 'react'
 import MyButton from '../../composants/MyButton'
 import type { admissionDetailsForm, anneesScolaires } from '../../utilitaires/DataTypes'
 import MyComboBox from '../../composants/MyComboBox'
@@ -14,7 +13,7 @@ export default function ListeDemandeAdmission() {
     const [listeDemandeAdmission, setListeDemandeAdmission] = useState<admissionDetailsForm[]>([]);
     const [listeAnneeScolaire, setListeAnneeScolaire] = useState<anneesScolaires[]>([]);
 
-    useState(()=>{
+    useEffect(()=>{
         // recuperation des annees scolaires dans le combo
         (async ()=>{
             const response = await myAxios.get<anneesScolaires[]>(url_anneesScolaire);
@@ -41,7 +40,7 @@ export default function ListeDemandeAdmission() {
             <legend className='float-none w-auto px-2 fs-6 fw-bold text-danger'>Recherche</legend>
             <div>
                 <MyComboBox label='Annee scolaire' nom="anneeScolaire" liste={listeAnneeScolaire} identifiant="id" valeurAfficher="anneeScolaire" valeurretouree="anneeScolaire"  />
-                <MyTextInput label='numero demande' name='numeroDemande'/>                
+                                
             </div>
             <MyButton label='rechercher' actionToExecute={afficherListe} type='button'/>
             

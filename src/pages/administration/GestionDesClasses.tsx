@@ -62,13 +62,7 @@ export default function GestionDesClasses() {
     const handleSaveNewClasse = async (e: React.FormEvent)=>{
         e.preventDefault();
         myAxios.post(saveClasseUrl, newClasseData)
-        .then((response)=>{
-            alert("Classe enregistrée avec succès");
-            handleListeClasses(); // Met à jour la liste des classes après l'enregistrement
-        })
-        .catch((error)=>{
-            console.error("Erreur lors de l'enregistrement de la classe:", error);
-        });
+        handleListeClasses(); // Met à jour la liste des classes après l'enregistrement
     }
 
     const handleBtnAnnuler = (e: React.FormEvent)=>{
