@@ -56,26 +56,37 @@ export type classes = {
         adresse: string
     }
 
-    export type unDocument = {
-    id: string,
-    file:File
-}
+    export type unDocumentForm = { // pour formulaire d'enregistrement d'un document
+        localId: string; // juste pour des besoins d'unicite cote frontend. A retirer avant post vers API
+        typeDoc:string;
+        nomDuDocument: string
+        documentData:File
+    }
 
-export type demandeAdmissionKey = {
+    export type unDocument = {// pour document recu du backend
+        id:number;
+        typeDoc:string;
+        nomDuDocument: string
+        documentData:File
+    }
+
+export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'admission
     candidatId: number;
     classeId: number;
     anneeScolaireId: number
 }
 
-    export type demandeAdmissionForm = {
-        candidat: candidatAdmissionForm;
-        anneeScolaire: string;
-        classeSouhaitee: string
+    export type demandeAdmissionForm = { // pour formulaire enregistrement de la demande d'admission
+        candidatAdmission: candidatAdmissionForm;
+        anneeScolaire: anneesScolaires;
+        classeSouhaitee: classes;
         motivation: string;
-        documentsJoint?: unDocument[];        
+        //documentsJoint?: unDocumentForm[];
+        parents: parentsForm[];
+        vieAvecLesDeuxParents:boolean
     }
 
-    export type demandeAdmission = {
+    export type demandeAdmission = { // pour demande admission recue du backend
         id: string;
         dateDemande: Date;
         numeroDemande: string;
@@ -83,11 +94,13 @@ export type demandeAdmissionKey = {
         anneeScolaire: string;
         classeSouhaitee: string
         motivation: string;
-        documentsJoint?: unDocument[]; 
+        documentsJoint?: unDocument[];
+        parents: parentsForm[];
+        vieAvecLesdeuxParents: boolean;
     
     }
 
-    export type admissionDetailsForm = {
+    export type admissionDetailsForm = { // utiliser pur le tableau comportant la lsite des demande d'admission
         dateNaissance:string;
         anneeScolaire:string;
         numeroDemande:string;
@@ -95,4 +108,22 @@ export type demandeAdmissionKey = {
         classeSollicitee: string;
         statut:string;
         dateDemande:string
+        vieAvecLesdeuxParents: boolean;
+    }
+
+    export type parentType = { // pour parent recu du backend
+        id: number;
+        nom: string;
+        prenoms: string;
+        typeParent: string;
+        numeroTelephone: string;
+        courriel:string
+    }
+
+    export type parentsForm = { // pour formulaire enregistrement d'un parent
+        nom: string;
+        prenoms: string;
+        typeParent: string | null;
+        numeroTelephone: string;
+        courriel:string
     }

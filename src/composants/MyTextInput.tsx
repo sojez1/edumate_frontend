@@ -7,9 +7,10 @@ type inputAtrrib ={
     value: string,
     onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     required?: boolean
+    type?:string
 }
 
-export default function MyTextInput({label, name, placeholder, value, onValueChange, required=false}:inputAtrrib) {
+export default function MyTextInput({label, name, placeholder, value, onValueChange, type="text", required=false}:inputAtrrib) {
 
     const champId = useId();
   return (
@@ -20,7 +21,8 @@ export default function MyTextInput({label, name, placeholder, value, onValueCha
             value={value}
             onChange={onValueChange}
             placeholder={placeholder}
-            required={required}     
+            required={required}
+            type={type}     
         
         />
         <label  className='form-label' htmlFor={champId}>{label} {required && <span className='text-danger'>*</span>}</label>

@@ -1,6 +1,6 @@
 import React, {useEffect, useState } from 'react'
 import MyTextInput from '../../composants/MyTextInput'
-import type { anneesScolaires } from '../../utilitaires/DataTypes';
+import type { anneeScolaireForm, anneesScolaires } from '../../utilitaires/DataTypes';
 import { myAxios } from '../../axios/MyAxios';
 import MyButton from '../../composants/MyButton';
 
@@ -11,12 +11,11 @@ const getAllAnneesScolairesUrl:string= 'anneeScolaires/lister'; //URL pour recup
 export default function GestionAnneeScolaires() {
     
     const defaultAnneeScolaireData = {
-        id:0,
         anneeScolaire: "",
         active: false
     };
 
-    const [anneescolaire, setAnneeScolaire] = useState<anneesScolaires>(defaultAnneeScolaireData);
+    const [anneescolaire, setAnneeScolaire] = useState<anneeScolaireForm>(defaultAnneeScolaireData);
     const [listeAnneesScolaires, setListeAnneesScolaires] = useState<anneesScolaires[]>([]);
 
     const handleAnneeScolaireChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
@@ -95,11 +94,11 @@ export default function GestionAnneeScolaires() {
                                 <td>{eachAnnee.id}</td>
                                 <td>{eachAnnee.anneeScolaire}</td>
                                 <td>{eachAnnee.active ? "Oui" : "Non"}</td>
-                                <span>
+                                <td>
                                     <button className='btn btn-sm btn-primary me-2'>Modifier</button>
                                     <button className='btn btn-sm btn-danger'>Supprimer</button>
                                     <button className='btn btn-sm btn-success ms-2' disabled={!eachAnnee.id} onClick={()=>handleActiverOuDesactiverAnnee(eachAnnee.id!)}>{eachAnnee.active ? "Désactiver" : "Activer"}</button>
-                                </span>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

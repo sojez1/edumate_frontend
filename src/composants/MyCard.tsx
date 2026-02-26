@@ -16,7 +16,7 @@ export default function MyCard({titre, texte, url_destination, photo}:card_Eleme
         <img className="card-img-top img-fluid" alt={titre} src={photo} height={100} />
       }      
         <div className="card-body">
-            <h5 className="card-title">{titre}</h5>
+            <h5 className="card-title text-primary fs-3">{titre}</h5>
             <p className="card-text">{texte}</p>
         </div>
     

@@ -18,7 +18,8 @@ export default function GestionDesClasses() {
 
     const [newClasseData, setNewClasseData] = useState<classeForm>(defaultClasseFormData);
     const [listeClasses, setListeClasses] = useState<classes[]>([]);
-    const [niveauxEnseignement, setNiveauxEnseignement] = useState<string[]>([]);
+    const [listeniveauxEnseignement, setListeNiveauxEnseignement] = useState<string[]>([]);
+    
 
     const handleClasseDataChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>)=>{
         
@@ -45,13 +46,13 @@ export default function GestionDesClasses() {
     const handleListeOrdreEnseignement = async ()=>{
         try{
             const {data} = await myAxios.get("/enumerations/ordreEnseignements");
-            setNiveauxEnseignement(data);
+            setListeNiveauxEnseignement(data);
         }catch(error){
             console.error("Erreur lors de la récupération des ordres d'enseignement:", error);
         }
     }
 
-    // useEffect pour charger les données initiales
+    
     useEffect(()=>{
         handleListeClasses();
         handleListeOrdreEnseignement();
@@ -61,7 +62,7 @@ export default function GestionDesClasses() {
     // Fonction pour enregistrer une nouvelle classe
     const handleSaveNewClasse = async (e: React.FormEvent)=>{
         e.preventDefault();
-        myAxios.post(saveClasseUrl, newClasseData)
+        await myAxios.post(saveClasseUrl, newClasseData)
         handleListeClasses(); // Met à jour la liste des classes après l'enregistrement
     }
 
@@ -80,9 +81,9 @@ export default function GestionDesClasses() {
         <div>
             <form onSubmit={handleSaveNewClasse}>
                 <h3>Ajouter une nouvelle classe</h3>
-                <MyTextInput label='Nom de la classe' name='nomClasse' value={newClasseData?.nomClasse || ''} onValueChange={handleClasseDataChange} placeholder='ex: 6eme A' required/>
-                <MyTextInput label='Appelation' name='appelation' value={newClasseData?.appelation || ''} onValueChange={handleClasseDataChange} placeholder='ex: sixieme A' required/>    
-                <MyEnumCombo label='Niveau d enseignement' name='ordreEnseignement' liste={niveauxEnseignement} required={true} />
+                <MyTextInput label='Nom de la classe' name='nomClasse' value={newClasseData.nomClasse} onValueChange={handleClasseDataChange} placeholder='ex: 6eme A' required/>
+                <MyTextInput label='Appelation' name='appelation' value={newClasseData.appelation} onValueChange={handleClasseDataChange} placeholder='ex: sixieme A' required/>    
+                <MyEnumCombo label='Niveau' name='ordreEnseignement' liste={listeniveauxEnseignement} handleSelecteurChange={(val)=>setNewClasseData((old_data)=>({...old_data, ordreEnseignement:val}))}/>
                 <div className='mt-3'>
                     <button type='submit' className='btn btn-primary'>Enregistrer</button>
                     <button type='button' className='btn btn-secondary ms-2' onClick={handleBtnAnnuler}>Annuler</button>

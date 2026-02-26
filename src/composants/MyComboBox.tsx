@@ -10,15 +10,16 @@ type ComboInput<T> = {
     selectionMultiple?: boolean;
     valeur?:string | number;
     onValueChange?:(value: string | number)=>void;
+    required?:boolean;
 }
 
-export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAfficher, valeurretouree, valeur, onValueChange, selectionMultiple = false}: ComboInput<T>){
+export default function MyComboBox<T>({label, nom, liste, identifiant, valeurAfficher, valeurretouree, valeur, onValueChange, selectionMultiple = false, required=false}: ComboInput<T>){
 
     const selecteurId = useId();
 
   return (
     <div className='flex-fill'>
-        <label htmlFor={selecteurId}>{label}</label>
+        <label htmlFor={selecteurId}>{label} {required && <span className='text-danger'>*</span>}</label>
 
         <select name={nom} value={valeur} id={selecteurId} onChange={(e)=>onValueChange && onValueChange(e.target.value)} multiple={selectionMultiple} className='form-select'>
 
