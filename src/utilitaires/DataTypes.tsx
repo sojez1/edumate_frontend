@@ -87,12 +87,11 @@ export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'
     }
 
     export type demandeAdmission = { // pour demande admission recue du backend
-        id: string;
-        dateDemande: Date;
+        dateDemandeAdmission: Date;
         numeroDemande: string;
-        candidat: candidatAdmissionForm;
-        anneeScolaire: string;
-        classeSouhaitee: string
+        candidatAdmission: candidatAdmissionForm;
+        anneeScolaire: anneesScolaires;
+        classeSouhaitee: classes;
         motivation: string;
         documentsJoint?: unDocument[];
         parents: parentsForm[];
@@ -126,4 +125,10 @@ export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'
         typeParent: string | null;
         numeroTelephone: string;
         courriel:string
+    }
+
+    export type FiltreDemandeAdmission = {
+        annee:string;
+        classe:string;
+        statut:string
     }

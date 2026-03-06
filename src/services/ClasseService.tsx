@@ -7,7 +7,6 @@ const urlClasses:string = "classes/listerClasses";
 // fonction pour recuperer la liste des classes depuis le backend
 export const getAllClasses = async():Promise<classes[]>=>{
     const classeReponse = await myAxios.get<classes[]>(urlClasses);
-    console.log("classe data: ", classeReponse.data)
     return classeReponse.data;
 }
 
