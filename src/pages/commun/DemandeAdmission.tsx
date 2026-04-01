@@ -130,7 +130,7 @@ export default function DemandeAdmission() {
   
 
     useEffect(() => {
-        // reduperation des annees scolaires
+        // recuperation des annees scolaires
         (async () => {
             const listeDesAnneeScolaire = await getAllSavedAnneeScolaire();
             setListeAnnees(listeDesAnneeScolaire);     

@@ -6,10 +6,13 @@ import { getAllSavedAnneeScolaire } from '../../services/AnneeScolaireService'
 import { getAllClasses } from '../../services/ClasseService'
 import MyEnumCombo from '../../composants/MyEnumCombo'
 import { getAllDemandeAdmission, listeStatutDemandeAdmission } from '../../services/DemandeAdmissionService'
+import { useNavigate } from 'react-router-dom'
 
 
 
 export default function ListeDemandeAdmission() {
+
+    const navigateTo = useNavigate();
 
     const [listeDemandeAdmission, setListeDemandeAdmission] = useState<demandeAdmission[]>([]);
     const [listeAnneeScolaire, setListeAnneeScolaire] = useState<anneesScolaires[]>([]);
@@ -51,14 +54,15 @@ export default function ListeDemandeAdmission() {
         // recuperation de la liste des demandes d'admission
         (async()=>{
             const listeDemande = await getAllDemandeAdmission(filtre);
-            console.log(listeDemande)
             setListeDemandeAdmission(listeDemande);
         })(); 
     },[filtre]);
 
 
     // fonction pour prendre une decision
-    const prendreDecision = ()=>{
+    const prendreDecision = (numdemande:string)=>{
+        navigateTo("/decisionAdmission", {state:{numDemande:numdemande, statutACtuel:filtre.statut}})
+
 
     }
 
@@ -107,14 +111,14 @@ export default function ListeDemandeAdmission() {
                         {
                             listeDemandeAdmission.map((chaqueDemande)=><tr key={chaqueDemande.numeroDemande}>
                                 
-                                <td>{new Date(chaqueDemande.dateDemandeAdmission).toUTCString()}</td>
+                                <td>{new Date(chaqueDemande.dateDemandeAdmission).toLocaleDateString()}</td>
                                 <td>{chaqueDemande.anneeScolaire.anneeScolaire}</td>
                                 <td>{chaqueDemande.numeroDemande}</td>
                                 <td>{chaqueDemande.candidatAdmission.prenom}</td>
                                 <td>{chaqueDemande.classeSouhaitee.nomClasse}</td>
                                 <td className='container gap-3'>
                                     <MyButton label='telecharger documents soumis' type='button' actionToExecute={telechargerDocumentsJoint} className='btn btn-primary gap-3'/>
-                                    <MyButton label='prendre une decision' type='button' actionToExecute={prendreDecision}/>
+                                    <MyButton label='prendre une decision' type='button' actionToExecute={()=>prendreDecision(chaqueDemande.numeroDemande)}/>
                                 </td>
 
                             </tr>)

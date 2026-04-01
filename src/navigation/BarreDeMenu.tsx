@@ -59,6 +59,7 @@ export default function BarreDeMenu() {
                     <li className='nav-item dropdown'><span className='nav-link dropdown-toggle' role='button' data-bs-toggle="dropdown" aria-expanded="false">Profil</span>
                         <ul className='dropdown-menu'>
                             <li><NavLink className="dropdown-item" to="login" >Se connecter</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="inscription_utilisateur" >Inscription</NavLink></li>
 
                         </ul>
                     </li>

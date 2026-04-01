@@ -12,6 +12,8 @@ import ListeDemandeAdmission from "../pages/administration/ListeDemandeAdmission
 import Accueil from "../pages/commun/Accueil";
 import AdmissionPrendreDecision from "../pages/administration/AdmissionPrendreDecision";
 import SansBarreDeMenu from "./SansBarreDeMenu";
+import VerifierOtp from "../pages/commun/VerifierOtp";
+import InscriptionUtilisateur from "../pages/commun/InscriptionUtilisateur";
 
 export const mesRoutes = createBrowserRouter([
 
@@ -30,7 +32,10 @@ export const mesRoutes = createBrowserRouter([
       {path:"classes", element:<GestionDesClasses/>},
       {path:"gestionAnneeScolaires", element:<GestionAnneeScolaires/>},
       {path: "listeDemandeAdmission", element:<ListeDemandeAdmission/>},
-      {path:"decisionAdmission", element:<AdmissionPrendreDecision/>}
+      {path:"decisionAdmission", element:<AdmissionPrendreDecision/>},
+      {path:"otp_verification", element:<VerifierOtp/>},
+      {path: "inscription_utilisateur", element:<InscriptionUtilisateur/>}
+
     ]
     
   },

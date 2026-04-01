@@ -132,3 +132,13 @@ export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'
         classe:string;
         statut:string
     }
+
+    export type decisionAdmission = {
+        id:number;
+        demandeAdmission: demandeAdmission;
+        statut:string;
+        necessiteAction:boolean;
+        dateDecision:Date;
+        dateLimiteAction:Date;
+        commentaires:string;
+    }

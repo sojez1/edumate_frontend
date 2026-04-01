@@ -11,6 +11,11 @@ export const getAllDemandeAdmission = async(filtre:FiltreDemandeAdmission):Promi
 
 }
 
+export const getDemandeAdmissionByNumeroDemande = async(numedemande: string):Promise<demandeAdmission>=>{
+    const demande = await myAxios.post<demandeAdmission>("/demande-admission/getDemande", numedemande);
+    return demande.data;
+}
+
 export const listeStatutDemandeAdmission = async()=>{
     const liste = await myAxios.get<string[]>(url_listeStatutDemandeAdmission);
     return liste.data;
