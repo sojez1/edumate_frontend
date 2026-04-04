@@ -18,10 +18,20 @@ export default function BarreDeMenu() {
                 <div className='collapse navbar-collapse' id='navbarSupportedContent'>
                     <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
                     
-                    {/*Sous menu admission*/}
-                    <li className='nav-item dropdown'><NavLink className='nav-link dropdown-toggle' to="#" role='button' data-bs-toggle="dropdown" aria-expanded="false">Admission</NavLink>
+                    {/*Sous menu futurs etudiants*/}
+                    <li className='nav-item dropdown'><NavLink className='nav-link dropdown-toggle' to="#" role='button' data-bs-toggle="dropdown" aria-expanded="false">Futurs etudiants</NavLink>
                         <ul className='dropdown-menu'>
                             <li><NavLink className="dropdown-item" to="demanderAdmission" >Demander une Admission</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="demanderAdmission" >Suivre une demande d'admission</NavLink></li>
+                        </ul>
+                    </li>
+
+
+                    {/*Sous menu Etudiants actuels*/}
+                    <li className='nav-item dropdown'><NavLink className='nav-link dropdown-toggle' to="#" role='button' data-bs-toggle="dropdown" aria-expanded="false">Etudiants actuels</NavLink>
+                        <ul className='dropdown-menu'>
+                            <li><NavLink className="dropdown-item" to="inscription" >S'inscrire pour la prochaine année scolaire</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="enregistrement_ancien_etudiants" >Enregistrement dans le systeme</NavLink></li>
                         </ul>
                     </li>
 
@@ -42,6 +52,7 @@ export default function BarreDeMenu() {
                             <li><NavLink className="dropdown-item" to="gestionAnneeScolaires" >Gestion des années scolaires</NavLink></li>
                             <li><NavLink className="dropdown-item" to="listeDemandeAdmission">Liste des demandes d'admission</NavLink></li>
                             <li><NavLink className="dropdown-item" to="decisionAdmission">Admission - prendre une decision</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="gestionUtilisateurs">Gestion des utilisateurs</NavLink></li>
 
                         </ul>
                     </li>
@@ -60,6 +71,8 @@ export default function BarreDeMenu() {
                         <ul className='dropdown-menu'>
                             <li><NavLink className="dropdown-item" to="login" >Se connecter</NavLink></li>
                             <li><NavLink className="dropdown-item" to="inscription_utilisateur" >Inscription</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="/" onClick={()=>{sessionStorage.removeItem("accessToken")}}>Se deconnecter</NavLink></li>
+
 
                         </ul>
                     </li>

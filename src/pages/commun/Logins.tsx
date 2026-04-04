@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { myAxios } from '../../axios/MyAxios';
 import MyButton from '../../composants/MyButton'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import MyTextInput from '../../composants/MyTextInput';
 
 
@@ -35,15 +35,11 @@ export default function Logins() {
         }
         try {
             const user_connex = await myAxios.post(login_url, loginData);
-            return user_connex;
-            //const {tokenTemporaire} = user_connex.data;
-            //navigateTo("/otp_verification", {
-                //state:{tokenTemporaire:{tokenTemporaire}}
-            //});
-            
+            sessionStorage.setItem("accessToken", user_connex.data);
+            console.log("mon token est: ", user_connex.data);   
+            navigateTo("/");            
         } catch (error) {
-            setMessage("Erreur de connexion. Veuillez verifier vos identifiants.")
-            
+            setMessage("Erreur de connexion. Veuillez verifier vos identifiants.")    
         }
         
         
@@ -76,11 +72,8 @@ export default function Logins() {
                 </div>
                 {message !== "" && <p className='text text-danger fw-bold fs-6'>{message}</p>}
                 <div className='container flex flex-row'>
-                    <MyButton type='submit' label="Log in" className='btn btn-primary'/>
-                    <p>
-                        Vous n'etes pas encore utilisateur?
-                        
-                    </p>                
+                    <MyButton type='submit' label="Connexion" className='btn btn-primary'/>
+                    <NavLink to="/inscription_utilisateur" className="btn btn-secondary">Vous n'etes pas encore utilisateur? S'inscrire</NavLink>                
                     <MyButton type='button' label='Retour' actionToExecute={onBtnCancel}/>
                     <MyButton type='button' label='mot de passe oublie' actionToExecute={onMotDePasseOublie} className='btn btn-warning'/>
                 </div>      

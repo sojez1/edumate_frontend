@@ -142,3 +142,16 @@ export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'
         dateLimiteAction:Date;
         commentaires:string;
     }
+
+    export type utilisateurDto = {
+        id: number;
+        username: string;
+        nom: string;
+        prenoms: string;
+        email: string;
+        valideEmail: boolean;
+        actif: boolean;
+        telephone: string;
+        role: string[];
+    
+    }

@@ -89,6 +89,7 @@ export default function InscriptionUtilisateur() {
   
     return (
     <div>
+            <p>Inscription d'un etudiant pour la prochaine rentree scolaire</p>
 
         {
             !message.trim() &&
