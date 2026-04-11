@@ -1,147 +1,136 @@
-import React, { useEffect, useState } from 'react'
-import type { anneesScolaires, classes } from '../../utilitaires/DataTypes';
-import MyTextInput from '../../composants/MyTextInput';
-import MyComboBox from '../../composants/MyComboBox';
-import MyButton from '../../composants/MyButton';
-import { getAllClasses } from '../../services/ClasseService';
-import { getAllSavedAnneeScolaire } from '../../services/AnneeScolaireService';
+/**
+ * Page d'enregistrement des anciens etudiants de l'ecole. Cette page est accessible a tous les anciens etudiants qui n'ont pas encore de compte utilisateur.
+ * Elle leur permettra de s'enregistrer en fournissant les informations necessaires sur eux meme, leur classe actuelle et leur annee scolaire actuelle. 
+ * Une fois que l'ancien etudiant a rempli le formulaire d'enregistrement et soumis, un compte utilisateur lui sera creee et il pourra se connecter a l'application avec les identifiants qu'il a fournis lors de l'enregistrement.
+ * En cas de probleme lors de l'enregistrement, l'ancien etudiant peut contacter l'administration pour obtenir de l'aide.
+ */
 
+import { useEffect, useRef, useState } from "react";
+import MyComboBox from "../../composants/MyComboBox";
+import { getAllSavedAnneeScolaire } from "../../services/AnneeScolaireService";
+import { getAllClasses } from "../../services/ClasseService";
+import type { anneesScolaires, classes } from "../../utilitaires/DataTypes";
+import MyButton from "../../composants/MyButton";
+import MyTextInput from "../../composants/MyTextInput";
+import { useNavigate } from "react-router-dom";
+import { myPublicAxios } from "../../axios/MyAxios";
 
-type etudiantForm ={
-    nom: string;
-    prenoms: string;
-    dateDeNaissance: string;
-    lieuDeNaissance: string;
-    nationalite: string;
-    adresse: string;
-    telephoneParent: string;
-}
-
-type utilisateurForm = {
-    nom: string;
-    prenoms: string;
-    username: string;
-    email: string;
-    telephone: string;
-    password: string;
-    role: string[];
-}
-
-type EnregistrementAncienEtudiantsProps = {
-    utilisateur: utilisateurForm;
-    etudiant: etudiantForm;
-    classeActuelle:classes;
-    anneeScolaireActuelle: anneesScolaires
-}
-
-const defaultUtilisateurForm = {
-    nom:"",
-    prenoms:"",
-    username:"",
-    email: "",
-    telephone: "",
-    password: "",
-    role: [] as string[]
-}
+import type { oldStudentForm } from "../../utilitaires/DataTypes";
+import { defaultOldStudentForm } from "../../utilitaires/DefaultDataValue";
 
 
 
-const defaultEtudiantForm: etudiantForm = {
-    nom:"",
-    prenoms:"",
-    dateDeNaissance: "",
-    lieuDeNaissance: "",
-    nationalite: "",
-    adresse: "",
-    telephoneParent: ""
-}
+export default function EnregistrementAncienEtudiants() {
+    const navigateTo = useNavigate();
+    const errorZone = useRef(null);
 
-const defaultClasse:classes = {
-    id: 0,
-    nomClasse: "",
-    appelation: "",
-    ordreEnseignement: ""
-}
-
-const defaultAnneeScolaire:anneesScolaires = {
-    id: 0,
-    anneeScolaire: "",
-    active: false
-}
-
-export default function EnregistrementAncienEtudiants({utilisateur, etudiant, classeActuelle, anneeScolaireActuelle}:EnregistrementAncienEtudiantsProps) {
-  const [newEnregistrementEtudiantActuel, setNewEnregistrementEtudiantActuel] = useState<EnregistrementAncienEtudiantsProps>();
-  const [listeClasses, setListeClasses] = useState<classes[]>([]);
-  const [listeAnneesScolaires, setListeAnneesScolaires] = useState<anneesScolaires[]>([]);
-
-  const handleNewEnregistrementEtudiantChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
-    const {name, value} = e.target;
-    setNewEnregistrementEtudiantActuel((prev)=>({
-      ...prev!,
-      [name]:value
-    }));
-  }
-
-  const onBtnEnregistrerClick = (e: React.FormEvent)=>{
-    e.preventDefault();
-  }
-
-  useEffect(()=>{
-    // fetch des classes et annees scolaires pour les combo box
-    (async ()=>{
-      const lesClasses = await getAllClasses();
-      setListeClasses(lesClasses)
-    })();
-
-    (async ()=>{
-      const lesAnneesScolaires = await getAllSavedAnneeScolaire();
-      setListeAnneesScolaires(lesAnneesScolaires)
-    })();
-  },[])
+    const [listeClasses, setListeClasses] = useState<classes[]>([]);
+    const [shortListeAnneeScolaire, setShortListeAnneeScolaire] = useState<anneesScolaires[]>([]);
+    const [message, setMessage] = useState<string>("");
+    const [studentFormData, setStudentFormData] = useState<oldStudentForm>(defaultOldStudentForm);  
 
 
+    const handleEtudiantDataChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {name, value} = e.target;
+        setStudentFormData((prev)=>({
+            ...prev,
+            etudiant:{
+                ...prev.etudiant,
+                utilisateur:{
+                    ...prev.etudiant.utilisateur,
+                    [name]:value
+                },
+                matricule: name === "matricule" ? value : prev.etudiant.matricule
+            }
+        }))
+
+    } 
+
+    useEffect(() => {
+            // recuperation des annees scolaires
+            (async () => {
+                const listeDesAnneeScolaire = await getAllSavedAnneeScolaire();
+                setShortListeAnneeScolaire(listeDesAnneeScolaire);     
+            })();
+            
+            // recuperations des classes (unites pedagogiques)
+    
+            (async ()=>{
+                const getAllsavedClasse = await getAllClasses();
+                setListeClasses(getAllsavedClasse);    
+            })();
+    
+        },[]);
+
+        const onBtnSoumettre = (e:React.FormEvent)=>{
+            e.preventDefault();
+            try{
+                // validation des donnees saisies
+                if(!studentFormData.etudiant.utilisateur.nom.trim() || !studentFormData.etudiant.utilisateur.prenoms.trim() || !studentFormData.etudiant.utilisateur.email.trim() || !studentFormData.etudiant.utilisateur.username.trim() || !studentFormData.etudiant.utilisateur.password.trim() || !studentFormData.classe || !studentFormData.anneeScolaire){
+                    setMessage("Veuillez remplir tous les champs du formulaire pour pouvoir soumettre votre demande d'enregistrement");
+                    return;
+                }
+                // soumission des donnees au backend pour enregistrement
+                async ()=>{
+                    await myPublicAxios.post("/etudiants/enroler_ancien_etudiant", studentFormData);
+                    setMessage("Votre demande d'enregistrement a ete soumise avec succees. L'administration de votre ecole va examiner votre demande et vous informer de la suite a donner dans les plus brefs delais. En cas de probleme de connexion ou pour toute autre question, veuillez contacter le support technique pour obtenir de l'aide.");
+                }
+            }
+            catch(error){
+                setMessage("Echec lors de l'enregistrement. Veuillez reessayer plus tard ou contacter le support technique en cas de probleme de connexion.") 
+            }
+
+        }
+  
 
   return (
     <div>
-        <p>Enregistrement des anciens etudiants</p>
-        <p>Si vous etes un ancien etudiant de l'ecole et que vous n'avez pas encore de compte utilisateur, veuillez vous enregistrer. 
-          <br/> Vous pouvez aussi contacter l'administration pour obtenir de l'aide</p>
+        <p className="text text-uppercase text-danger fw-bold fs-4">Enregistrement d'un etudiant dans le systeme de gestionde l'ecole</p>
+        <p className="text text-muted">Veuillez remplir le formulaire ci-dessous pour vous enregistrer sur la nouvelle plateforme. <br/> L'administration de votre ecole pourra ensuite valider votre demande d'enregistrement.</p>
 
-        <form onSubmit={onBtnEnregistrerClick}>
-          <fieldset>
-            <legend>Informations sur l'étudiant</legend>
-            <MyTextInput label="nom" name="nom" value={etudiant.nom} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="prenom" name="prenoms" value={etudiant.prenoms} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="date de naissance" name="dateDeNaissance" type="date" value={etudiant.dateDeNaissance} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="lieu de naissance" name="lieuDeNaissance" value={etudiant.lieuDeNaissance} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="nationalite" name="nationalite" value={etudiant.nationalite} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="adresse" name="adresse" value={etudiant.adresse} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="telephone parent" name="telephoneParent" value={etudiant.telephoneParent} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-          </fieldset>
-          <fieldset>
-            <legend>Informations sur la classe actuelle</legend>
-            <MyComboBox label="classe actuelle" name="classeActuelle" liste={classes} handleSelecteurChange={(classeSelected: string)=>
-                setNewEnregistrementEtudiantActuel(prev => ({...prev, classeActuelle:classeSelected}))}
-            />
+        {message && <p className="text text-danger text-center">{message}</p>}        
+        
+        <form className="container d-flex flex-column gap-3" onSubmit={onBtnSoumettre}>
 
-            <MyComboBox label="annee scolaire actuelle" name="anneeScolaireActuelle" liste={anneesScolaires} handleSelecteurChange={(anneeScolaireSelected: string)=>
-                setNewEnregistrementEtudiantActuel(prev => ({...prev, anneeScolaireActuelle:anneeScolaireSelected}))}
-            />
-          </fieldset>
           <fieldset>
-            
-              <legend>Informations sur les parents</legend>
-            <MyTextInput label="nom du parent" name="nomParent" value={utilisateur.nom} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="prenom du parent" name="prenomsParent" value={utilisateur.prenoms} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="telephone du parent" name="telephoneParent" value={utilisateur.telephone} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            <MyTextInput label="email du parent" name="emailParent" type="email" value={utilisateur.email} onValueChange={handleNewEnregistrementEtudiantChange} required/>
-            
-            
+            <legend className="text text-primary fw-bold justify-content-end">Informations personnelles</legend>
+            <div>
+              <div className="container d-flex flex-row gap-3">
+                <MyTextInput required label="Nom" name="nom" value={studentFormData.etudiant.utilisateur.nom} onValueChange={handleEtudiantDataChange} placeholder="nom"/>
+                <MyTextInput required label="Prenom" name="prenoms" value={studentFormData.etudiant.utilisateur.prenoms} onValueChange={handleEtudiantDataChange} placeholder="prenoms"/>
+              </div>
+              <div className="container d-flex flex-row gap-3">
+                <MyTextInput label="Matricule" name="matricule" value={studentFormData.etudiant.matricule} onValueChange={handleEtudiantDataChange} placeholder="nom" required/>
+                
+              </div>
+              <div>
+                <MyTextInput required label="Adresse email" name="email" type="email" value={studentFormData.etudiant.utilisateur.email} onValueChange={handleEtudiantDataChange} required/>
+                <MyTextInput label="Telephone" name="telephone" value={studentFormData.etudiant.utilisateur.telephone} onValueChange={handleEtudiantDataChange}/>
+              </div>
+            </div>
           </fieldset>
 
-          <MyButton label="Enregistrer" type="submit"/>
-          <MyButton label="Annuler" type="button"/>
+          <fieldset>
+            <legend className="text text-primary fw-bold justify-content-end">Information pour le login</legend>
+            <div>
+              <MyTextInput label="Nom d'utilisateur" name="username" value={studentFormData.etudiant.utilisateur.username} onValueChange={handleEtudiantDataChange} placeholder="nom d'utilisateur" required/>
+              <MyTextInput required label="Mot de passe" name="password" type="password" value={studentFormData.etudiant.utilisateur.password} onValueChange={handleEtudiantDataChange}/>
+              <MyTextInput label="Confirmer le mot de passe" name="confirmerMotDePasse" type="password" value="" onValueChange={(e)=>e.target.value} required/>
+            </div>
+          </fieldset>
 
+
+          <fieldset>
+            <legend className="text text-primary fw-bold justify-content-end">Donnees scolaire de l'annee courante</legend>
+            <div className="container d-flex flex-row gap-3">
+              <MyComboBox required label="Classe actuelle" nom="classeActuelle" liste={listeClasses} identifiant="id" valeurAfficher={["nomClasse","Appelation"]} valeurretouree="id" />
+              <MyComboBox required label="Annee scolaire actuelle" nom="anneeScolaireActuelle" liste={shortListeAnneeScolaire} identifiant="id" valeurAfficher="anneeScolaire" valeurretouree="id"/>
+            </div>            
+          </fieldset>
+          <div>
+            <MyButton label="Soumettre" type="submit" className="btn btn-primary"/>
+          </div>
+          
 
         </form>
     </div>

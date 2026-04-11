@@ -155,3 +155,25 @@ export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'
         role: string[];
     
     }
+
+    export type UtilisateurForm = {
+        nom:string;
+        prenoms:string;
+        username:string;
+        email: string;
+        telephone: string;
+        password: string;
+        role: string[];
+    }
+    
+    export type etudiantForm = {
+        matricule: string;
+        utilisateur: UtilisateurForm;
+    }
+    
+    export type oldStudentForm = {
+        etudiant: etudiantForm;
+        classe: classes;
+        anneeScolaire: anneesScolaires; 
+    }
+        

@@ -34,7 +34,16 @@ export default function BarreDeMenu() {
                             <li><NavLink className="dropdown-item" to="enregistrement_ancien_etudiants" >Enregistrement dans le systeme</NavLink></li>
                         </ul>
                     </li>
-
+                    
+                    
+                    {/*Sous menu parents*/}
+                    <li className='nav-item dropdown'><span className='nav-link dropdown-toggle' role='button' data-bs-toggle="dropdown" aria-expanded="false">Parents</span>
+                        <ul className='dropdown-menu'>
+                            <li><NavLink className="dropdown-item" to="signalerAbsenceEnfant" >Faire un paiement</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="signalerAbsenceEnfant" >Signaler une absence</NavLink></li>
+                        </ul>
+                    </li>
+                    
                     
                     {/*Sous menu enseignements*/}
                     <li className='nav-item dropdown'><NavLink className='nav-link dropdown-toggle' to="#" role='button' data-bs-toggle="dropdown" aria-expanded="false">Enseignants</NavLink>
@@ -57,15 +66,7 @@ export default function BarreDeMenu() {
                         </ul>
                     </li>
 
-                    {/*Sous menu parents*/}
-                    <li className='nav-item dropdown'><span className='nav-link dropdown-toggle' role='button' data-bs-toggle="dropdown" aria-expanded="false">Parents</span>
-                        <ul className='dropdown-menu'>
-                            <li><NavLink className="dropdown-item" to="signalerAbsenceEnfant" >Faire un paiement</NavLink></li>
-                            <li><NavLink className="dropdown-item" to="signalerAbsenceEnfant" >Signaler une absence</NavLink></li>
-                        </ul>
-                    </li>
-
-                    
+                                        
                     {/*Sous menu profil utilisateur*/}
                     <li className='nav-item dropdown'><span className='nav-link dropdown-toggle' role='button' data-bs-toggle="dropdown" aria-expanded="false">Profil</span>
                         <ul className='dropdown-menu'>

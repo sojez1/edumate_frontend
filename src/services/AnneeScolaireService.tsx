@@ -1,4 +1,4 @@
-import { myAxios } from "../axios/MyAxios"
+import {myPublicAxios } from "../axios/MyAxios"
 import type { anneesScolaires } from "../utilitaires/DataTypes";
 
 
@@ -7,7 +7,7 @@ const urlAnneeScolaire:string = "/anneeScolaires/lister";
 
 
 export const getAllSavedAnneeScolaire = async ():Promise<anneesScolaires[]>=>{
-    const anneeReponse = await myAxios.get<anneesScolaires[]>(urlAnneeScolaire);
+    const anneeReponse = await myPublicAxios.get<anneesScolaires[]>(urlAnneeScolaire);
     return anneeReponse.data;
 }
 

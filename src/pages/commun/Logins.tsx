@@ -1,8 +1,8 @@
 
 import { useState } from 'react';
-import { myAxios } from '../../axios/MyAxios';
+import {myPublicAxios } from '../../axios/MyAxios';
 import MyButton from '../../composants/MyButton'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import {NavLink, useNavigate } from 'react-router-dom'
 import MyTextInput from '../../composants/MyTextInput';
 
 
@@ -34,12 +34,11 @@ export default function Logins() {
             return;
         }
         try {
-            const user_connex = await myAxios.post(login_url, loginData);
-            sessionStorage.setItem("accessToken", user_connex.data);
-            console.log("mon token est: ", user_connex.data);   
+            const user_connex = await myPublicAxios.post(login_url, loginData);
+            sessionStorage.setItem("accessToken", user_connex.data);  
             navigateTo("/");            
         } catch (error) {
-            setMessage("Erreur de connexion. Veuillez verifier vos identifiants.")    
+            setMessage("Erreur de connexion. Veuillez verifier vos identifiants.");     
         }
         
         

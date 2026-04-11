@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import MyTextInput from '../../composants/MyTextInput'
 import type { anneesScolaires, classes, demandeAdmissionForm, parentsForm, unDocumentForm } from '../../utilitaires/DataTypes'
-import { myAxios } from '../../axios/MyAxios'
+import { myAxios, myPublicAxios } from '../../axios/MyAxios'
 import MyComboBox from '../../composants/MyComboBox'
 import DocumentATeleverser from '../../composants/DocumentATeleverser'
 import MyRadioGroup from '../../composants/MyRadioGroup'
@@ -146,7 +146,7 @@ export default function DemandeAdmission() {
 
         // recuperer la liste des types de parents
         (async ()=>{
-            const listeType = await myAxios.get<string[]>("enumerations/getTypeParents")
+            const listeType = await myPublicAxios.get<string[]>("enumerations/getTypeParents")
             setListeOption(listeType.data);
         })();
 

@@ -4,17 +4,9 @@ import MyEnumCombo from "../../composants/MyEnumCombo";
 import MyTextInput from "../../composants/MyTextInput";
 import { myAxios } from "../../axios/MyAxios";
 import { getListeRoleUtilisateur } from "../../services/UtilisateurService";
-import MyComboBox from "../../composants/MyComboBox";
 
-type UtilisateurForm = {
-    nom:string;
-    prenoms:string;
-    username:string;
-    email: string;
-    telephone: string;
-    password: string;
-    role: string[];
-};
+
+import type { UtilisateurForm } from "../../utilitaires/DataTypes";
 
 const defaultUtilisateur: UtilisateurForm = {
     nom:"",
