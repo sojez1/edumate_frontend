@@ -1,4 +1,4 @@
-import { myAxios, myPublicAxios } from "../axios/MyAxios"
+import { myPublicAxios } from "../axios/MyAxios"
 import type { classes } from "../utilitaires/DataTypes";
 
 

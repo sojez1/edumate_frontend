@@ -1,7 +1,9 @@
+/*
+
 import MyTextInput from '../../composants/MyTextInput'
 import MyButton from '../../composants/MyButton'
 import { useState } from 'react'
-import { useNavigate, useNavigation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const defaultOtpRequest = {
     tokenTemporaire:"",
@@ -14,6 +16,7 @@ export default function VerifierOtp() {
 
 
     const sendOtp = ()=>{
+        (otpReq)
 
     }
 
@@ -31,4 +34,13 @@ export default function VerifierOtp() {
         <MyButton label='Retour' actionToExecute={onBtnRetour}/>
     </div>
   )
+}
+
+
+
+*/
+
+export default function VerifierOtp() {
+
+    return (<div></div>)
 }

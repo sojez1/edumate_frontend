@@ -1,9 +1,16 @@
+import { jwtDecode } from 'jwt-decode';
 import { NavLink, Outlet } from 'react-router-dom'
 
 export default function BarreDeMenu() {
+    const accessToken = sessionStorage.getItem("accessToken");
+    const token = ()=>{
+        if(!accessToken) return null;
+        return jwtDecode(accessToken);
+    }
   return (
     <>
-        <header>
+        {
+            <header>
             <nav className='navbar navbar-expand-lg fixed-top' style={{backgroundColor:"#CF27F5"}}>
                 <div className='container'>
                     
@@ -61,6 +68,7 @@ export default function BarreDeMenu() {
                             <li><NavLink className="dropdown-item" to="gestionAnneeScolaires" >Gestion des années scolaires</NavLink></li>
                             <li><NavLink className="dropdown-item" to="listeDemandeAdmission">Liste des demandes d'admission</NavLink></li>
                             <li><NavLink className="dropdown-item" to="decisionAdmission">Admission - prendre une decision</NavLink></li>
+                            <li><NavLink className="dropdown-item" to="listeUtilisateurs">Liste des utilisateurs du systeme</NavLink></li>
                             <li><NavLink className="dropdown-item" to="gestionUtilisateurs">Gestion des utilisateurs</NavLink></li>
 
                         </ul>
@@ -85,6 +93,11 @@ export default function BarreDeMenu() {
                 </div>                  
             </nav>
         </header>
+
+
+
+        }
+        
         
         <main className='container mt-5'>
             <Outlet/>

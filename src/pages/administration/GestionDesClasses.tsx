@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import type { classeForm, classes } from '../../utilitaires/DataTypes'
-import { myAxios } from '../../axios/MyAxios';
+import { myAxios, myPublicAxios } from '../../axios/MyAxios';
 import MyTextInput from '../../composants/MyTextInput';
 import MyEnumCombo from '../../composants/MyEnumCombo';
 
@@ -34,7 +34,7 @@ export default function GestionDesClasses() {
     // Fonction pour récupérer la liste des classes depuis le backend
     const handleListeClasses = async ()=>{
         try{
-            const response = await myAxios.get(getAllClassesUrl);
+            const response = await myPublicAxios.get(getAllClassesUrl);
             setListeClasses(response.data);
         }catch(error){
             console.error("Erreur lors de la récupération des classes:", error);
@@ -45,7 +45,7 @@ export default function GestionDesClasses() {
     // Fonction pour récupérer les ordres d'enseignement depuis le backend
     const handleListeOrdreEnseignement = async ()=>{
         try{
-            const {data} = await myAxios.get("/enumerations/ordreEnseignements");
+            const {data} = await myPublicAxios.get("/enumerations/ordreEnseignements");
             setListeNiveauxEnseignement(data);
         }catch(error){
             console.error("Erreur lors de la récupération des ordres d'enseignement:", error);

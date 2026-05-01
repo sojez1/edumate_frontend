@@ -39,7 +39,13 @@ export const defaultUserForm:UtilisateurForm={
 
 export const defaultEtudiantForm: etudiantForm = {
     matricule: "",
-    utilisateur: defaultUserForm
+    nom:"",
+    prenoms:"",
+    username:"",
+    email:"",
+    telephone:"",
+    password:"",
+    role: [] as string[]
 }
 
 export const defaultOldStudentForm:oldStudentForm = {

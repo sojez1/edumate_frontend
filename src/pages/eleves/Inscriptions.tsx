@@ -1,101 +1,84 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom";
-import type { anneesScolaires, classes, utilisateurDto } from "../../utilitaires/DataTypes";
-import MyComboBox from "../../composants/MyComboBox";
-import { getAllSavedAnneeScolaire } from "../../services/AnneeScolaireService";
-import { getAllClasses } from "../../services/ClasseService";
-import MyButton from "../../composants/MyButton";
+import { useEffect, useState } from "react";
+import MyTextToShow from "../../composants/MyTextToShow";
+import type {anneesScolaires, classes, Etudiant, HistoriqueClasseEtudiant} from "../../utilitaires/DataTypes";
+import { myAxios } from "../../axios/MyAxios";
 
 
-export default function Inscriptions() {
-  const navigateTo = useNavigate();
+type InfosEtudiant = {
+  id: number;
+  etudiant: Etudiant;
+  classe: classes;
+  anneeScolaire: anneesScolaires
+}
 
-    const [studentInfo, setStudentInfo] = useState<utilisateurDto>();
-    const [studentActuelleClasse, setStudentActuelleClasse] = useState();
-    const [inscriptionData, setInscriptionData] = useState();
-    const [message, setMessage] = useState<String>("");
-    const [listeClasse, setListeClasse] = useState<classes[]>([]);
-    const [shortListeAnneeScolaire, setShortListeAnneeScolaire] = useState<anneesScolaires[]>([]);
+const url_histo:string = "/etudiants/getStudentHistorique";
 
+
+export default function Inscriptions(){
+  const [etudiantInfo, setEtudiantInfo] = useState<InfosEtudiant | null>(null);
+  const [message, setMessage] = useState<string>("");
+
+  const getStudentHistoriqueData = async ():Promise<HistoriqueClasseEtudiant[]>=>{
+    try {
+      const studentdata = await myAxios.get<HistoriqueClasseEtudiant[]>(url_histo);
+    return studentdata.data;
+      
+    } catch (error) {
+      setMessage("Impossible de charger les donnees actuelles de l'utilisateur connecte")
+      throw error;
+      
+    }
     
-    const getStudentInfo = ()=>{
+  }
 
-    }
-    const getStudentActuelleClasse = ()=>{
+  useEffect(()=>{
 
-    }
+    // load student info
+    (async () => {
+      const myDatas = await getStudentHistoriqueData();
+      const oneData = myDatas[0];
+      setEtudiantInfo(oneData);
+    })();
+  },[]);
 
-    useEffect(()=>{
-      if(sessionStorage.getItem("accessToken") == null){
-        // rediriger vers la page de connexion
-        setMessage("Vous devez vous connecter pour acceder a cette page. En cas de probleme de connexion, veuillez contacter le support technique.");       
-        //navigateTo("/login");
-        return;
-      }else{
-        // recuperer les infos de l'etudiant a partir du token
-        getStudentInfo();
-        getStudentActuelleClasse();
-      }
-    },[]);
+  
 
-    useEffect(()=>{
-      // recuperation des annees scolaires
-      (async () => {
-          const listeDesAnneeScolaire = await getAllSavedAnneeScolaire();
-          setShortListeAnneeScolaire(listeDesAnneeScolaire);     
-      })();
-
-      // recuperations des classes (unites pedagogiques)
-      (async ()=>{
-          const getAllsavedClasse = await getAllClasses();
-          setListeClasse(getAllsavedClasse);    
-      })();
-    },[]);
-
-
-
-    const onBtnSoumettre = ()=>{
-
-    };
   return (
     <div>
       <p className="text text-danger fw-bold text-uppercase fs-4">Inscription a pour l'annee scolaire a venir</p>
+      {message && <p>{message}</p>}
 
-      {message && <p className="text text-danger text-center">{message}</p>}
+      {etudiantInfo && 
 
-        <div>
-          <fieldset>
-            <legend className="text text-primary fw-bold fs-4">Informations sur l'etudiant</legend>
-            <dl className="container d-flex gap-3">
-              <div>
-                <dt>Nom</dt>
-                <dd>{studentInfo?.nom}</dd>
-              </div>
-              <div>
-                <dt>Prénom</dt>
-                <dd>{studentInfo?.prenoms}</dd>
-              </div>
-              <div>
-                <dt>Adresse email</dt>
-                <dd>{studentInfo?.adresseEmail}</dd>
-              </div>
-            </dl>            
-          </fieldset> 
-        </div>
-        
-        <form onSubmit={onBtnSoumettre} className="container d-flex flex-column gap-3">
-          
-          <fieldset>  
-            <legend className="text text-primary fw-bold fs-4">Details de l'inscription</legend>
-            <div className="container d-flex flex-row gap-3">
-              <MyComboBox required label="annee scolaire d'inscription" nom="anneescolaie" liste={shortListeAnneeScolaire} identifiant="id" valeurAfficher="anneeScolaire" valeurretouree="id" onValueChange={()=>{}} />
-              <MyComboBox required label="s'inscrire en :" nom="classe" liste={listeClasse} identifiant="id" valeurAfficher={["nomClasse","appelation"]} valeurretouree="id" onValueChange={()=>{}} />
-            </div>            
-          </fieldset>
-          <div className="container d-flex justify-content-end">
-            <MyButton label="soumettre" type="submit" className="btn btn-primary"/>
+      <fieldset>
+          <legend className="text text-primary fw-bold fs-4">Vos informations actuelles </legend>
+          <div>
+            <MyTextToShow label="Nom" val={etudiantInfo.etudiant.nom}/>
+            <MyTextToShow label="prenom" val={etudiantInfo.etudiant.prenoms}/>
+            <MyTextToShow label="Telephone" val={etudiantInfo.etudiant.telephone}/>
           </div>
-        </form>
+          <div>
+            <MyTextToShow label="derniere annee scolaire" val={etudiantInfo.anneeScolaire.anneeScolaire}/>
+            <MyTextToShow label="classe Actuelle" val={etudiantInfo.classe.nomClasse}/>
+          </div>
+
+      </fieldset>
+
+      }
+
+      <form>
+        <fieldset>
+          <legend>Inscription pour l'annee suivante</legend>
+          <div>
+
+          </div>
+          
+        </fieldset>
+      </form>
+
+
+
+      
     </div>
   )
 }

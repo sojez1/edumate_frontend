@@ -167,13 +167,41 @@ export type demandeAdmissionKey = { // pour cle primaire (compose) de demande d'
     }
     
     export type etudiantForm = {
+        //use to save student in the system
         matricule: string;
-        utilisateur: UtilisateurForm;
+        nom:string;
+        prenoms:string;
+        username:string;
+        email:string;
+        telephone:string;
+        password:string;
+        role: string[];
     }
+
     
     export type oldStudentForm = {
+        // use to save old student (still student at the school) in the system
         etudiant: etudiantForm;
         classe: classes;
         anneeScolaire: anneesScolaires; 
+    }
+
+    export type Etudiant = utilisateurDto & {
+        matricule: string;
+    }
+
+    export type HistoriqueClasseEtudiant = {
+        id:number;
+        etudiant:Etudiant;
+        anneeScolaire: anneesScolaires;
+        classe: classes;
+    }
+
+    export interface abc {
+        nom: string;
+    }
+
+    export interface abcmore extends abc{
+        prenom: string;
     }
         
